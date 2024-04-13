@@ -10,6 +10,7 @@ class LocalEmployee: RealmObject {
     var name: String = ""
     var birthDate: String = ""
     var city: String = ""
+    var document: String = ""
     var active: Boolean = false
     var profilePicture: String = ""
 }

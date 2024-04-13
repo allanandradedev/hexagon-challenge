@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter
 
 class CalculateAgeUseCase {
     operator fun invoke(birthDate: String): Int {
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val formatter = DateTimeFormatter.ofPattern("ddMMyyyy")
         val dateOfBirth = LocalDate.parse(birthDate, formatter)
         val currentDate = LocalDate.now()
         val period = Period.between(dateOfBirth, currentDate)

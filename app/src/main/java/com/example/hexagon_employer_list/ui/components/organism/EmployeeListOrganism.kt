@@ -89,14 +89,14 @@ fun EmployeeListOrganism(employeeList: List<LocalEmployee>, onItemClick: (LocalE
             EmployeeVisualization.GRID -> {
                 FlowRow(
                     maxItemsInEachRow = 3,
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.spacedBy(24.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(350.dp)
                 ) {
                     employeeList.forEach {
-                        EmployeeItem(employee = it, visualization = EmployeeVisualization.GRID, onItemClick)
+                        EmployeeItem(employee = it, visualization = EmployeeVisualization.GRID, onItemClick = onItemClick)
                     }
                 }
             }
@@ -114,21 +114,21 @@ fun EmployeeListPreview() {
             this.active = true
             this.city = "Recife"
             this.name = "Allan Renan"
-            this.birthDate = "27/09/1999"
+            this.birthDate = "27091999"
             this.profilePicture = "https://avatars.githubusercontent.com/u/86168014?v=4"
         },
         LocalEmployee().apply {
             this.active = true
             this.city = "Recife"
             this.name = "Allan Renan"
-            this.birthDate = "27/09/1999"
+            this.birthDate = "27091999"
             this.profilePicture = "https://avatars.githubusercontent.com/u/86168014?v=4"
         },
         LocalEmployee().apply {
             this.active = true
             this.city = "Recife"
             this.name = "Allan Renan"
-            this.birthDate = "27/09/1999"
+            this.birthDate = "27091999"
             this.profilePicture = "https://avatars.githubusercontent.com/u/86168014?v=4"
         }
     )
