@@ -73,10 +73,6 @@ fun EmployeeItem(
             .build()
     )
 
-    val cardColors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onBackground
-    )
     AnimatedVisibility(
         visible = visible,
         enter = slideInHorizontally(
@@ -92,7 +88,6 @@ fun EmployeeItem(
                 .height(120.dp)
                 .shadow(elevation = 2.dp, RoundedCornerShape(8.dp)),
             shape = RoundedCornerShape(8.dp),
-            colors = cardColors,
             onClick = { onItemClick.invoke(employee) }
         ) {
             Row(

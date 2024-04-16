@@ -28,4 +28,6 @@
     <string name="insert_valid_document">Insira um CPF válido</string>
     <string name="unexpected_error">Ocorreu um erro inesperado, tente novamente.</string>
     <string name="loading_employee_data">Carregando dados do funcionário</string>
+    <string name="actives">Ativos</string>
+    <string name="inactives">Inativos</string>
 </resources>

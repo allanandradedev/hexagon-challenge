@@ -2,7 +2,9 @@ package com.example.hexagon_employer_list.ui.components.template
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,6 +16,7 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -51,6 +54,14 @@ fun EmployeeListTemplate(
     }
 
     var active by remember {
+        mutableStateOf(false)
+    }
+
+    var isActiveFiltered by remember {
+        mutableStateOf(true)
+    }
+
+    var isInactiveFiltered by remember {
         mutableStateOf(false)
     }
 
@@ -112,11 +123,33 @@ fun EmployeeListTemplate(
                     .padding(horizontal = 16.dp),
             ) {
             }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                FilterChip(
+                    selected = isActiveFiltered,
+                    onClick = { isActiveFiltered = !isActiveFiltered },
+                    label = {
+                        Text(text = stringResource(R.string.actives))
+                    }
+                )
+                FilterChip(
+                    selected = isInactiveFiltered,
+                    onClick = { isInactiveFiltered = !isInactiveFiltered },
+                    label = {
+                        Text(text = stringResource(R.string.inactives))
+                    }
+                )
+            }
+
             Spacer(modifier = Modifier.height(8.dp))
             if (employeeList.isNotEmpty()) {
                 EmployeeListOrganism(
                     employeeList = employeeList.filter {
-                        it.name.uppercase().contains(query.uppercase())
+                        it.name.uppercase().contains(query.uppercase()) && (it.active == isActiveFiltered || it.active == !isInactiveFiltered)
                     },
                     onItemClick = onItemClick,
                     onEdit = onEdit,
