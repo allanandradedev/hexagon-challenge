@@ -37,7 +37,7 @@ fun NavGraphBuilder.mainGraph(navController: NavHostController) {
         EmployeeListScreen(
             state = viewModel.uiState,
             onEvent = { event -> viewModel.onEvent(event) },
-            onEdit = { employee -> navController.navigate("${EmployeeForm.route}?${EmployeeForm.id}=${employee._id.toHexString()}") },
+            onEdit = { employee -> navController.navigate("${EmployeeForm.route}?${EmployeeForm.ID}=${employee.id.toHexString()}") },
             onAdd = { navController.navigate(EmployeeForm.route) }
         )
     }
@@ -47,7 +47,7 @@ fun NavGraphBuilder.mainGraph(navController: NavHostController) {
         arguments = EmployeeForm.arguments
     ) { navBackStack ->
         val id = navBackStack
-            .arguments?.getString(EmployeeForm.id) ?: ""
+            .arguments?.getString(EmployeeForm.ID) ?: ""
 
         val viewModel = hiltViewModel<EmployeeFormViewModel>()
         val currentEvent by viewModel.event.collectAsState()

@@ -1,7 +1,6 @@
 package com.example.hexagon_employer_list.domain.use_case
 
 import java.time.LocalDate
-import java.time.Period
 import java.time.format.DateTimeFormatter
 
 class FormatLocalDateUseCase {

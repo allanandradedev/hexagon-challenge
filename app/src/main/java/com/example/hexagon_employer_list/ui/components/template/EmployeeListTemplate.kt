@@ -18,6 +18,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,7 +33,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hexagon_employer_list.R
 import com.example.hexagon_employer_list.data.source.local.LocalEmployee
-import com.example.hexagon_employer_list.ui.components.atom.TextAtom
 import com.example.hexagon_employer_list.ui.components.organism.EmployeeListOrganism
 import com.example.hexagon_employer_list.ui.components.screen.list.EmployeeListEvent
 import com.example.hexagon_employer_list.ui.theme.HexagonTheme
@@ -99,7 +99,7 @@ fun EmployeeListTemplate(
                 active = active,
                 onActiveChange = onActiveChange,
                 placeholder = {
-                    TextAtom(text = stringResource(R.string.type_employee_name))
+                    Text(text = stringResource(R.string.type_employee_name))
                 },
                 leadingIcon = {
                     Icon(

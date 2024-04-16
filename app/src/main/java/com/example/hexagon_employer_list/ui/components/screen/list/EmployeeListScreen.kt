@@ -55,13 +55,3 @@ fun EmployeeListScreen(
 
 }
 
-sealed class EmployeeListState {
-    data class Loading(val message: String) : EmployeeListState()
-    data class Success(val employeeList: List<LocalEmployee>): EmployeeListState()
-}
-
-sealed interface EmployeeListEvent {
-    data class OnToggleActivation(val employee: LocalEmployee): EmployeeListEvent
-    data class OnEdit(val employee: LocalEmployee): EmployeeListEvent
-    data class OnDelete(val employee: LocalEmployee): EmployeeListEvent
-}

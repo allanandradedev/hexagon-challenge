@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -39,8 +40,8 @@ class MainActivity : FragmentActivity() {
                     when (currentResult) {
                         is MainState.Error -> {
                             ErrorTemplate(
-                                title = "Não foi possível confirmar sua identidade",
-                                subTitle = "Por gentileza, verifique se o seu aparelho possuí uma forma de autenticação ativa."
+                                title = stringResource(R.string.cant_confirm_identity),
+                                subTitle = stringResource(R.string.verify_phone_authentication)
                             )
                         }
 
