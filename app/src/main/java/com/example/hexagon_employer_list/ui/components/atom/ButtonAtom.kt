@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hexagon_employer_list.ui.theme.HexagonTheme
@@ -27,7 +28,9 @@ fun ButtonAtom(
     modifier: Modifier = Modifier,
     buttonType: ButtonType = ButtonType.DEFAULT,
     buttonColor: Color = MaterialTheme.colorScheme.primary,
+    textStyle: TextStyle = MaterialTheme.typography.labelMedium,
     enabled: Boolean = true,
+    shape: RoundedCornerShape = RoundedCornerShape(4.dp)
 ) {
     val defaultColors = ButtonDefaults.buttonColors(
         containerColor = buttonColor,
@@ -44,26 +47,27 @@ fun ButtonAtom(
             Button(
                 onClick = onClick,
                 colors = defaultColors,
-                shape = RoundedCornerShape(4.dp),
+                shape = shape,
                 enabled = enabled,
                 modifier = modifier.height(48.dp)
             ) {
                 TextAtom(
                     text = text,
-                    style = MaterialTheme.typography.labelMedium
+                    style = textStyle
                 )
             }
         }
+
         ButtonType.OUTLINE -> {
             OutlinedButton(
                 onClick = onClick,
-                shape = RoundedCornerShape(4.dp),
+                shape = shape,
                 border = BorderStroke(1.dp, buttonColor),
                 modifier = modifier.height(48.dp)
             ) {
                 TextAtom(
                     text = text,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = textStyle,
                     color = buttonColor
                 )
             }
@@ -76,7 +80,10 @@ enum class ButtonType {
     OUTLINE
 }
 
-@Preview(device = "spec:id=reference_phone,shape=Normal,width=411,height=891,unit=dp,dpi=420", showSystemUi = true)
+@Preview(
+    device = "spec:id=reference_phone,shape=Normal,width=411,height=891,unit=dp,dpi=420",
+    showSystemUi = true
+)
 @Composable
 fun ButtonAtomPreview() {
     HexagonTheme {

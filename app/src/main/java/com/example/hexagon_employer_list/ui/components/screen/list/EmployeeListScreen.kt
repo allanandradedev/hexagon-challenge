@@ -1,47 +1,67 @@
 package com.example.hexagon_employer_list.ui.components.screen.list
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.hexagon_employer_list.data.source.local.LocalEmployee
 import com.example.hexagon_employer_list.ui.components.molecule.EmployeeDetailModalMolecule
 import com.example.hexagon_employer_list.ui.components.template.EmployeeListTemplate
+import com.example.hexagon_employer_list.ui.components.template.LoadingTemplate
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun EmployeeListScreen(
-    employeeList: StateFlow<List<LocalEmployee>>,
-    onEditClick: (LocalEmployee) -> Unit,
-    onDeleteClick: (LocalEmployee) -> Unit,
-    onAddClick: () -> Unit
+    state: StateFlow<EmployeeListState>,
+    onEvent: (EmployeeListEvent) -> Unit,
+    onEdit: (LocalEmployee) -> Unit,
+    onAdd: () -> Unit
 ) {
-    val currentEmployees by employeeList.collectAsStateWithLifecycle()
+    val currentState by state.collectAsState()
 
-    var showDetail by remember {
-        mutableStateOf(Pair(false, LocalEmployee()))
+    var showDetails by remember {
+        mutableStateOf(Pair<Boolean, LocalEmployee?>(false, null))
     }
 
-    EmployeeListTemplate(
-        employeeList = currentEmployees,
-        onSearch = {},
-        onItemClick = {
-            showDetail = Pair(true, it)
-        },
-        onAddClick = onAddClick,
-    )
+    when(currentState) {
+        is EmployeeListState.Loading -> {
+            LoadingTemplate(text = (currentState as EmployeeListState.Loading).message)
+        }
+        is EmployeeListState.Success -> {
+            EmployeeListTemplate(
+                employeeList = (currentState as EmployeeListState.Success).employeeList,
+                onItemClick = { employee -> showDetails = Pair(true, employee)},
+                onEvent = onEvent,
+                onEdit = onEdit,
+                onAdd = onAdd
+            )
+        }
+    }
 
-    if (showDetail.first) {
+    if (showDetails.first) {
         EmployeeDetailModalMolecule(
-            employee = showDetail.second,
-            onDismiss = { showDetail = Pair(false, LocalEmployee())},
-            onEditClick = onEditClick,
+            employee = showDetails.second!!,
+            onDismiss = { showDetails = Pair(false, null) },
+            onEditClick = onEdit,
             onDeleteClick = {
-                onDeleteClick.invoke(it)
-                showDetail = Pair(false, LocalEmployee())
+                onEvent.invoke(EmployeeListEvent.OnDelete(it))
+                showDetails = Pair(false, null)
             }
         )
     }
+
+
+}
+
+sealed class EmployeeListState {
+    data class Loading(val message: String) : EmployeeListState()
+    data class Success(val employeeList: List<LocalEmployee>): EmployeeListState()
+}
+
+sealed interface EmployeeListEvent {
+    data class OnToggleActivation(val employee: LocalEmployee): EmployeeListEvent
+    data class OnEdit(val employee: LocalEmployee): EmployeeListEvent
+    data class OnDelete(val employee: LocalEmployee): EmployeeListEvent
 }

@@ -18,6 +18,7 @@ ksp = "1.9.22-1.0.17"
 material3Android = "1.2.1"
 coil = "2.6.0"
 uiTooling = "1.6.5"
+biometric = "1.2.0-alpha05"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -29,6 +30,8 @@ material = { group = "com.google.android.material", name = "material", version.r
 
 realm-library-base = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
 realm-library-sync = { module = "io.realm.kotlin:library-sync", version.ref = "realm" }
+
+biometric = {module = "androidx.biometric:biometric-ktx", version.ref = "biometric"}
 
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }

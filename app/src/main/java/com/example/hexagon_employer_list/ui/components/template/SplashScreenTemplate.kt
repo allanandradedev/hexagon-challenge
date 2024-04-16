@@ -2,6 +2,7 @@ package com.example.hexagon_employer_list.ui.components.template
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hexagon_employer_list.R
@@ -22,13 +24,14 @@ fun SplashScreenTemplate() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.onSurface)
             .padding(vertical = 32.dp),
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(R.drawable.hexagon_logo),
-            contentDescription = "Brand image",
+            painter = if (isSystemInDarkTheme()) painterResource(id = R.drawable.hexagon_logo_dark) else painterResource(
+                id = R.drawable.hexagon_logo_light
+            ),
+            contentDescription = stringResource(id = R.string.hexagon_logo),
             contentScale = ContentScale.FillWidth,
             modifier = Modifier.width(150.dp)
         )

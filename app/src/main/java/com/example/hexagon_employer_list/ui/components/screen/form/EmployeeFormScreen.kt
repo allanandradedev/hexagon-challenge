@@ -38,3 +38,7 @@ sealed interface EmployeeFormEvent {
     data class OnClick(val employee: LocalEmployee): EmployeeFormEvent
 }
 
+sealed interface EmployeeFormViewModelEvent {
+    data object OnUpsertFinish: EmployeeFormViewModelEvent
+}
+

@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">hexagon_employer_list</string>
+    <string name="active">Ativo</string>
+    <string name="inactive">Inativo</string>
+    <string name="situation">Situação</string>
+    <string name="city">Cidade</string>
+    <string name="birth_date">Data de Nascimento</string>
+    <string name="cpf">CPF</string>
+    <string name="age">Idade</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="hexagon_logo">Hexagon Logo</string>
+    <string name="select_profile_picture">Selecione a imagem de perfil.</string>
+    <string name="name">Nome</string>
+    <string name="finish">Concluir</string>
+    <string name="delete_icon">Delete Icon</string>
+    <string name="edit">Editar</string>
+    <string name="deactivate">Desativar</string>
+    <string name="activate">Ativar</string>
+    <string name="exclude">Excluir</string>
+    <string name="add_icon">Add icon</string>
+    <string name="type_employee_name">Digite aqui o nome do funcionário.</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="nothing_to_show">Não há nada para exibir</string>
+    <string name="havent_add_employee">Você ainda não adicionou nenhum funcionário, adicione algum e ele será exibido aqui.</string>
+    <string name="error_icon">Error Icon</string>
 </resources>

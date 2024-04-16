@@ -1,12 +1,15 @@
 package com.example.hexagon_employer_list.ui.navigation.graph
 
-import android.util.Log
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.example.hexagon_employer_list.ui.components.screen.form.EmployeeFormScreen
 import com.example.hexagon_employer_list.ui.components.screen.form.EmployeeFormViewModel
+import com.example.hexagon_employer_list.ui.components.screen.form.EmployeeFormViewModelEvent
 import com.example.hexagon_employer_list.ui.components.screen.list.EmployeeListScreen
 import com.example.hexagon_employer_list.ui.components.screen.list.EmployeeListViewModel
 import com.example.hexagon_employer_list.ui.components.screen.splash.SplashScreen
@@ -30,11 +33,12 @@ fun NavGraphBuilder.mainGraph(navController: NavHostController) {
         route = EmployeeList.route
     ) {
         val viewModel = hiltViewModel<EmployeeListViewModel>()
+
         EmployeeListScreen(
-            employeeList = viewModel.employeeList,
-            onAddClick = { navController.navigate(EmployeeForm.route) },
-            onEditClick = { employee -> navController.navigate("${EmployeeForm.route}?${EmployeeForm.id}=${employee._id.toHexString()}") },
-            onDeleteClick = { employee -> viewModel.deleteEmployee(employee) }
+            state = viewModel.uiState,
+            onEvent = { event -> viewModel.onEvent(event) },
+            onEdit = { employee -> navController.navigate("${EmployeeForm.route}?${EmployeeForm.id}=${employee._id.toHexString()}") },
+            onAdd = { navController.navigate(EmployeeForm.route) }
         )
     }
 
@@ -46,9 +50,22 @@ fun NavGraphBuilder.mainGraph(navController: NavHostController) {
             .arguments?.getString(EmployeeForm.id) ?: ""
 
         val viewModel = hiltViewModel<EmployeeFormViewModel>()
+        val currentEvent by viewModel.event.collectAsState()
 
         if (id.isNotEmpty()) {
             viewModel.getEmployeeById(ObjectId(hexString = id))
+        }
+
+        DisposableEffect(key1 = currentEvent) {
+            currentEvent.let {
+                if (it is EmployeeFormViewModelEvent.OnUpsertFinish) {
+                    navController.navigateUp()
+                }
+            }
+
+            onDispose {
+                viewModel.resetEvent()
+            }
         }
 
         EmployeeFormScreen(

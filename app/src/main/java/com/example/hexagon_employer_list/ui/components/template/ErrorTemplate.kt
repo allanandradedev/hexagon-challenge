@@ -8,55 +8,64 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.hexagon_employer_list.R
 import com.example.hexagon_employer_list.ui.components.atom.TextAtom
 import com.example.hexagon_employer_list.ui.theme.HexagonTheme
 
 @Composable
-fun LoadingTemplate(
-    text: String
+fun ErrorTemplate(
+    title: String,
+    subTitle: String,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 48.dp)
-            .testTag("loadingScreen"),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .padding(horizontal = 36.dp)
+            .testTag("endResultTemplate"),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CircularProgressIndicator(
-            modifier = Modifier.size(64.dp),
-            strokeWidth = 8.dp,
-            color = MaterialTheme.colorScheme.secondaryContainer,
-            trackColor = MaterialTheme.colorScheme.inversePrimary
+        Icon(
+            Icons.Filled.Clear,
+            contentDescription = stringResource(R.string.error_icon),
+            tint = MaterialTheme.colorScheme.error,
+            modifier = Modifier.size(100.dp)
         )
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         TextAtom(
-            text = text,
-            style = MaterialTheme.typography.headlineLarge.copy(
-                fontWeight = FontWeight.Bold
-            ),
+            text = title,
+            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        TextAtom(
+            text = subTitle,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }
 
 @Preview(device = "spec:width=720px,height=1280px,dpi=320", showSystemUi = true)
 @Composable
-fun LoadingTemplatePreview() {
+fun ErrorTemplatePreview() {
     HexagonTheme {
-        LoadingTemplate(
-            text = "Carregando algo"
+        ErrorTemplate(
+            title = "Não há nada para exibir",
+            subTitle = "Você ainda não adicionou nenhum funcionário, adicione algum e ele será exibido aqui.",
         )
     }
 }

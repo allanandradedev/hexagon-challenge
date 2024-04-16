@@ -78,4 +78,6 @@ dependencies {
 
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.runtime.compose)
+
+    implementation(libs.biometric)
 }

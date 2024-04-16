@@ -19,15 +19,27 @@ import javax.inject.Inject
 class EmployeeFormViewModel @Inject constructor(
     private val employeeRepository: EmployeeRepository,
     private val getEmployeeByIdUseCase: GetEmployeeByIdUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _state = MutableStateFlow<EmployeeFormState>(EmployeeFormState.Success())
     val uiState: StateFlow<EmployeeFormState> = _state.asStateFlow()
 
+    private val _event = MutableStateFlow<EmployeeFormViewModelEvent?>(null)
+    val event: StateFlow<EmployeeFormViewModelEvent?> = _event.asStateFlow()
+
+    fun resetEvent() {
+        _event.value = null
+    }
+
     fun onEvent(event: EmployeeFormEvent) {
-        when(event) {
+        when (event) {
             is EmployeeFormEvent.OnClick -> {
-                upsertEmployee(employee = event.employee)
+                try {
+                    upsertEmployee(employee = event.employee)
+                    _event.value = EmployeeFormViewModelEvent.OnUpsertFinish
+                } catch (ex: Exception) {
+                    // TODO
+                }
             }
         }
     }
@@ -41,10 +53,11 @@ class EmployeeFormViewModel @Inject constructor(
             }
         }
     }
+
     private fun upsertEmployee(employee: LocalEmployee) {
         viewModelScope.launch {
             employeeRepository.upsertEmployee(employee)
         }
     }
-
 }
+
