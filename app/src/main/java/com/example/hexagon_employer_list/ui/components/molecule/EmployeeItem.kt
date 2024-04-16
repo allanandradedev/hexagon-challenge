@@ -107,9 +107,9 @@ fun EmployeeItem(
                     )
                 }
                 Row {
-                    TextAtom(text = "Idade: ${CalculateAgeUseCase().invoke(employee.birthDate)}")
+                    TextAtom(text = "${stringResource(id = R.string.age)}: ${CalculateAgeUseCase().invoke(employee.birthDate)}")
                     Spacer(modifier = Modifier.width(8.dp))
-                    TextAtom(text = "Cidade: ${employee.city}")
+                    TextAtom(text = "${stringResource(id = R.string.city)}: ${employee.city}")
                 }
                 TextAtom(
                     text = "${stringResource(R.string.situation)}: ${
@@ -146,7 +146,7 @@ fun EmployeeItem(
                     OutlinedButton(
                         onClick = {
                             val currentEmployee = LocalEmployee().apply {
-                                this._id = employee._id
+                                this.id = employee.id
                                 this.name = employee.name
                                 this.city = employee.city
                                 this.birthDate = employee.birthDate

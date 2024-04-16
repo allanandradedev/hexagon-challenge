@@ -23,4 +23,7 @@
     <string name="nothing_to_show">Não há nada para exibir</string>
     <string name="havent_add_employee">Você ainda não adicionou nenhum funcionário, adicione algum e ele será exibido aqui.</string>
     <string name="error_icon">Error Icon</string>
+    <string name="cant_confirm_identity">Não foi possível confirmar sua identidade</string>
+    <string name="verify_phone_authentication">Por gentileza, verifique se o seu aparelho possuí uma forma de autenticação ativa.</string>
+    <string name="insert_valid_document">Insira um CPF válido</string>
 </resources>

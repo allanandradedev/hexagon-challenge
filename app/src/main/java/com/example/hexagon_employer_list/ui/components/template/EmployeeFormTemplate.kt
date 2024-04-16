@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -28,7 +27,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -205,7 +203,7 @@ fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -
                 singleLine = true,
                 supportingText = {
                     if (document.isNotEmpty() && !ValidateCPFUseCase().invoke(document)) {
-                        TextAtom(text = "Insira um CPF válido")
+                        TextAtom(text = stringResource(R.string.insert_valid_document))
                     }
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -258,7 +256,7 @@ fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -
                     onEvent(
                         EmployeeFormEvent.OnClick(
                             LocalEmployee().apply {
-                                this._id = employee._id
+                                this.id = employee.id
                                 this.name = name
                                 this.city = city
                                 this.birthDate = birthDate

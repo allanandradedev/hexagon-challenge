@@ -31,7 +31,7 @@ fun TextFieldAtom(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    textFieldType: TextFielType = TextFielType.DEFAULT,
+    textFieldType: TextFieldType = TextFieldType.DEFAULT,
     isError: Boolean = false,
     supportingText: String = "",
     placeholder: String = "",
@@ -67,7 +67,7 @@ fun TextFieldAtom(
         )
 
         when (textFieldType) {
-            TextFielType.DEFAULT -> {
+            TextFieldType.DEFAULT -> {
                 TextField(
                     value = value,
                     onValueChange = { text ->
@@ -93,7 +93,7 @@ fun TextFieldAtom(
                 )
             }
 
-            TextFielType.DOCUMENT -> {
+            TextFieldType.DOCUMENT -> {
                 TextField(
                     value = value,
                     onValueChange = { text ->
@@ -141,7 +141,7 @@ private fun SupportingText(
     }
 }
 
-enum class TextFielType {
+enum class TextFieldType {
     DEFAULT,
     DOCUMENT
 }
@@ -164,14 +164,14 @@ fun TextFieldAtomPreview() {
                 title = "CPF/CNPJ do Titular",
                 value = value,
                 onValueChange = onValueChange,
-                textFieldType = TextFielType.DOCUMENT,
+                textFieldType = TextFieldType.DOCUMENT,
                 modifier = localModifier,
             )
             TextFieldAtom(
                 title = "Algum Texto",
                 value = value,
                 onValueChange = onValueChange,
-                textFieldType = TextFielType.DEFAULT,
+                textFieldType = TextFieldType.DEFAULT,
                 modifier = localModifier,
             )
         }

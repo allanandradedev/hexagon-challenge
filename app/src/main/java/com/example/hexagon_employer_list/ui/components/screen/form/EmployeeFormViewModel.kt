@@ -1,13 +1,11 @@
 package com.example.hexagon_employer_list.ui.components.screen.form
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hexagon_employer_list.data.repository.EmployeeRepository
 import com.example.hexagon_employer_list.data.source.local.LocalEmployee
 import com.example.hexagon_employer_list.domain.use_case.GetEmployeeByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.realm.kotlin.ext.copyFromRealm
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

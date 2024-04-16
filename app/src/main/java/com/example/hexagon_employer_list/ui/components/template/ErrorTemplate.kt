@@ -1,6 +1,5 @@
 package com.example.hexagon_employer_list.ui.components.template
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

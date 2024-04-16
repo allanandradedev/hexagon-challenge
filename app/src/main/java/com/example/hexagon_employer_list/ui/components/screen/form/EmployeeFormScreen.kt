@@ -3,7 +3,6 @@ package com.example.hexagon_employer_list.ui.components.screen.form
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.example.hexagon_employer_list.data.source.local.LocalEmployee
 import com.example.hexagon_employer_list.ui.components.template.EmployeeFormTemplate
 import com.example.hexagon_employer_list.ui.components.template.LoadingTemplate
 import kotlinx.coroutines.flow.StateFlow
@@ -26,19 +25,5 @@ fun EmployeeFormScreen(state: StateFlow<EmployeeFormState>, onEvent: (EmployeeFo
             )
         }
     }
-}
-
-sealed class EmployeeFormState {
-    data class Loading(val message: String) : EmployeeFormState()
-    data class Success(val employee: LocalEmployee = LocalEmployee()): EmployeeFormState()
-    data class Error (val message: String): EmployeeFormState()
-}
-
-sealed interface EmployeeFormEvent {
-    data class OnClick(val employee: LocalEmployee): EmployeeFormEvent
-}
-
-sealed interface EmployeeFormViewModelEvent {
-    data object OnUpsertFinish: EmployeeFormViewModelEvent
 }
 

@@ -3,14 +3,12 @@ package com.example.hexagon_employer_list.data.repository
 import com.example.hexagon_employer_list.Hexagon
 import com.example.hexagon_employer_list.data.source.local.LocalEmployee
 import io.realm.kotlin.UpdatePolicy
-import io.realm.kotlin.ext.copyFromRealm
 import io.realm.kotlin.ext.query
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.mongodb.kbson.ObjectId
 
-class EmployeeRepositoryImpl(
-) : EmployeeRepository {
+class EmployeeRepositoryImpl : EmployeeRepository {
     private val realm = Hexagon.realm
     override fun getEmployees(): Flow<List<LocalEmployee>> =
         realm.query<LocalEmployee>().asFlow().map { it.list }
@@ -21,7 +19,7 @@ class EmployeeRepositoryImpl(
     override suspend fun upsertEmployee(employee: LocalEmployee) {
         realm.writeBlocking {
             val liveEmployee =
-                this.query<LocalEmployee>("_id == $0", employee._id).first().find()
+                this.query<LocalEmployee>("_id == $0", employee.id).first().find()
 
             if (liveEmployee !== null) {
                 liveEmployee.apply {
@@ -34,7 +32,7 @@ class EmployeeRepositoryImpl(
                 }
             } else {
                 copyToRealm(
-                    instance = liveEmployee ?: employee,
+                    instance = employee,
                     updatePolicy = UpdatePolicy.ALL
                 )
             }

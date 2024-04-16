@@ -20,10 +20,10 @@ data object EmployeeList: Destination {
 data object EmployeeForm: Destination {
     override val route: String
         get() = "employee-form"
-    const val id = "id"
-    val routeWithArgs = "${route}?$id={$id}"
+    const val ID = "id"
+    val routeWithArgs = "${route}?$ID={$ID}"
     val arguments = listOf(
-        navArgument(id) {
+        navArgument(ID) {
             nullable = true
             type = NavType.StringType
         }
