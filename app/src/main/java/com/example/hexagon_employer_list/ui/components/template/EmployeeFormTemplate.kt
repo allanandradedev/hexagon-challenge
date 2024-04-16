@@ -26,6 +26,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,7 +53,6 @@ import com.example.hexagon_employer_list.R
 import com.example.hexagon_employer_list.data.source.local.LocalEmployee
 import com.example.hexagon_employer_list.domain.use_case.ValidateCPFUseCase
 import com.example.hexagon_employer_list.ui.components.atom.ButtonAtom
-import com.example.hexagon_employer_list.ui.components.atom.TextAtom
 import com.example.hexagon_employer_list.ui.components.screen.form.EmployeeFormEvent
 import com.example.hexagon_employer_list.ui.components.visual_transformations.DateTransformation
 import com.example.hexagon_employer_list.ui.components.visual_transformations.DocumentTransformation
@@ -147,7 +147,7 @@ fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -
                         },
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                TextAtom(
+                Text(
                     text = stringResource(R.string.select_profile_picture),
                     style = MaterialTheme.typography.headlineMedium
                 )
@@ -157,7 +157,7 @@ fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -
 
             TextField(
                 label = {
-                    TextAtom(text = stringResource(R.string.name))
+                    Text(text = stringResource(R.string.name))
                 },
                 value = name,
                 onValueChange = onNameChange,
@@ -174,7 +174,7 @@ fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -
 
             TextField(
                 label = {
-                    TextAtom(text = stringResource(id = R.string.birth_date))
+                    Text(text = stringResource(id = R.string.birth_date))
                 },
                 value = birthDate,
                 onValueChange = onBirthDateChange,
@@ -193,7 +193,7 @@ fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -
 
             TextField(
                 label = {
-                    TextAtom(text = stringResource(id = R.string.cpf))
+                    Text(text = stringResource(id = R.string.cpf))
                 },
                 value = document,
                 onValueChange = onDocumentChange,
@@ -203,7 +203,7 @@ fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -
                 singleLine = true,
                 supportingText = {
                     if (document.isNotEmpty() && !ValidateCPFUseCase().invoke(document)) {
-                        TextAtom(text = stringResource(R.string.insert_valid_document))
+                        Text(text = stringResource(R.string.insert_valid_document))
                     }
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -217,7 +217,7 @@ fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -
 
             TextField(
                 label = {
-                    TextAtom(text = stringResource(id = R.string.city))
+                    Text(text = stringResource(id = R.string.city))
                 },
                 value = city,
                 onValueChange = onCityChange,
@@ -237,7 +237,7 @@ fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                TextAtom(
+                Text(
                     text = stringResource(id = R.string.active),
                     style = MaterialTheme.typography.headlineLarge
                 )

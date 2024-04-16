@@ -21,21 +21,15 @@ class EmployeeRepositoryImpl : EmployeeRepository {
             val liveEmployee =
                 this.query<LocalEmployee>("_id == $0", employee.id).first().find()
 
-            if (liveEmployee !== null) {
-                liveEmployee.apply {
-                    this.city = employee.city
-                    this.profilePicture = employee.profilePicture
-                    this.name = employee.name
-                    this.birthDate = employee.birthDate
-                    this.active = employee.active
-                    this.document = employee.document
-                }
-            } else {
-                copyToRealm(
-                    instance = employee,
-                    updatePolicy = UpdatePolicy.ALL
-                )
-            }
+            liveEmployee?.apply {
+                this.city = employee.city
+                this.profilePicture = employee.profilePicture
+                this.name = employee.name
+                this.birthDate = employee.birthDate
+                this.active = employee.active
+                this.document = employee.document
+            } ?: copyToRealm(instance = employee, updatePolicy = UpdatePolicy.ALL)
+
         }
     }
 

@@ -8,6 +8,5 @@ interface EmployeeRepository {
     fun getEmployees(): Flow<List<LocalEmployee>>
     fun getEmployeeById(employeeId: ObjectId): LocalEmployee?
     suspend fun upsertEmployee(employee: LocalEmployee)
-
     suspend fun deleteEmployee(employee: LocalEmployee)
 }

@@ -23,6 +23,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +42,6 @@ import coil.request.ImageRequest
 import com.example.hexagon_employer_list.R
 import com.example.hexagon_employer_list.data.source.local.LocalEmployee
 import com.example.hexagon_employer_list.domain.use_case.CalculateAgeUseCase
-import com.example.hexagon_employer_list.ui.components.atom.TextAtom
 import com.example.hexagon_employer_list.ui.theme.HexagonTheme
 
 
@@ -97,7 +97,7 @@ fun EmployeeItem(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    TextAtom(text = employee.name, style = MaterialTheme.typography.headlineMedium)
+                    Text(text = employee.name, style = MaterialTheme.typography.headlineMedium)
                     Icon(
                         painter = rememberVectorPainter(image = Icons.Filled.Clear),
                         contentDescription = stringResource(R.string.delete_icon),
@@ -107,11 +107,11 @@ fun EmployeeItem(
                     )
                 }
                 Row {
-                    TextAtom(text = "${stringResource(id = R.string.age)}: ${CalculateAgeUseCase().invoke(employee.birthDate)}")
+                    Text(text = "${stringResource(id = R.string.age)}: ${CalculateAgeUseCase().invoke(employee.birthDate)}")
                     Spacer(modifier = Modifier.width(8.dp))
-                    TextAtom(text = "${stringResource(id = R.string.city)}: ${employee.city}")
+                    Text(text = "${stringResource(id = R.string.city)}: ${employee.city}")
                 }
-                TextAtom(
+                Text(
                     text = "${stringResource(R.string.situation)}: ${
                         if (employee.active) stringResource(
                             R.string.active
@@ -137,7 +137,7 @@ fun EmployeeItem(
                             .width(60.dp),
                         contentPadding = PaddingValues(0.dp)
                     ) {
-                        TextAtom(
+                        Text(
                             text = stringResource(R.string.edit),
                             style = MaterialTheme.typography.labelSmall
                         )
@@ -169,7 +169,7 @@ fun EmployeeItem(
                             if (employee.active) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
                         )
                     ) {
-                        TextAtom(
+                        Text(
                             text = if (employee.active) stringResource(R.string.deactivate) else stringResource(
                                 R.string.activate
                             ),

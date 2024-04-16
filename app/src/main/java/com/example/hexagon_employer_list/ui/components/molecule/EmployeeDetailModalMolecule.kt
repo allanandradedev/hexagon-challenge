@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,7 +36,6 @@ import com.example.hexagon_employer_list.domain.use_case.CalculateAgeUseCase
 import com.example.hexagon_employer_list.domain.use_case.FormatLocalDateUseCase
 import com.example.hexagon_employer_list.ui.components.atom.ButtonAtom
 import com.example.hexagon_employer_list.ui.components.atom.ButtonType
-import com.example.hexagon_employer_list.ui.components.atom.TextAtom
 import com.example.hexagon_employer_list.ui.theme.HexagonTheme
 
 @Composable
@@ -75,11 +75,11 @@ fun EmployeeDetailModalMolecule(
                 Column(
                     verticalArrangement = Arrangement.Center
                 ) {
-                    TextAtom(
+                    Text(
                         text = employee.name,
                         style = MaterialTheme.typography.headlineLarge
                     )
-                    TextAtom(
+                    Text(
                         text = "${stringResource(R.string.age)}: ${
                             CalculateAgeUseCase().invoke(
                                 employee.birthDate
@@ -90,11 +90,11 @@ fun EmployeeDetailModalMolecule(
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            TextAtom(
+            Text(
                 text = "${stringResource(R.string.cpf)}: ${employee.document}",
                 style = MaterialTheme.typography.headlineMedium
             )
-            TextAtom(
+            Text(
                 text = "${stringResource(R.string.birth_date)}: ${
                     FormatLocalDateUseCase().invoke(
                         employee.birthDate
@@ -102,11 +102,11 @@ fun EmployeeDetailModalMolecule(
                 }",
                 style = MaterialTheme.typography.headlineMedium
             )
-            TextAtom(
+            Text(
                 text = "${stringResource(R.string.city)}: ${employee.city}",
                 style = MaterialTheme.typography.headlineMedium
             )
-            TextAtom(
+            Text(
                 text = "${stringResource(R.string.situation)}: ${
                     if (employee.active) stringResource(
                         R.string.active
