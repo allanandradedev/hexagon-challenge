@@ -25,10 +25,14 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,33 +58,36 @@ import com.example.hexagon_employer_list.data.source.local.LocalEmployee
 import com.example.hexagon_employer_list.domain.use_case.ValidateCPFUseCase
 import com.example.hexagon_employer_list.ui.components.atom.ButtonAtom
 import com.example.hexagon_employer_list.ui.components.screen.form.EmployeeFormEvent
+import com.example.hexagon_employer_list.ui.components.screen.form.EmployeeFormState
 import com.example.hexagon_employer_list.ui.components.visual_transformations.DateTransformation
 import com.example.hexagon_employer_list.ui.components.visual_transformations.DocumentTransformation
 import com.example.hexagon_employer_list.ui.theme.HexagonTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -> Unit) {
+fun EmployeeFormTemplate(state: EmployeeFormState.Success, onEvent: (EmployeeFormEvent) -> Unit) {
     val context = LocalContext.current
 
     var name by remember {
-        mutableStateOf(employee.name)
+        mutableStateOf(state.employee.name)
     }
     var birthDate by remember {
-        mutableStateOf(employee.birthDate)
+        mutableStateOf(state.employee.birthDate)
     }
     var document by remember {
-        mutableStateOf(employee.document)
+        mutableStateOf(state.employee.document)
     }
     var city by remember {
-        mutableStateOf(employee.city)
+        mutableStateOf(state.employee.city)
     }
     var active by remember {
-        mutableStateOf(employee.active)
+        mutableStateOf(state.employee.active)
     }
     var profilePicture: Uri? by remember {
-        mutableStateOf(employee.profilePicture.toUri())
+        mutableStateOf(state.employee.profilePicture.toUri())
     }
+
+    val snackBarHostState = remember { SnackbarHostState() }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
@@ -95,15 +102,27 @@ fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -
         }
     )
 
+    if (state.errorMessages.isNotEmpty()) {
+        val errorMessageText = stringResource(id = state.errorMessages[0])
+
+        LaunchedEffect(errorMessageText) {
+            snackBarHostState.showSnackbar(message = errorMessageText)
+        }
+    }
+
+
     val onNameChange = { text: String -> name = text.take(70) }
-    val onBirthDateChange = { text: String -> birthDate =  text.take(8) }
-    val onDocumentChange = { text: String -> document =  text.take(14) }
-    val onCityChange = { text: String -> city =  text.take(50) }
+    val onBirthDateChange = { text: String -> birthDate = text.take(8) }
+    val onDocumentChange = { text: String -> document = text.take(14) }
+    val onCityChange = { text: String -> city = text.take(50) }
 
     val enabled =
         name.isNotEmpty() && birthDate.isNotEmpty() && document.isNotEmpty() && city.isNotEmpty()
 
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHostState)
+        },
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -256,7 +275,7 @@ fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -
                     onEvent(
                         EmployeeFormEvent.OnClick(
                             LocalEmployee().apply {
-                                this.id = employee.id
+                                this.id = state.employee.id
                                 this.name = name
                                 this.city = city
                                 this.birthDate = birthDate
@@ -278,6 +297,8 @@ fun EmployeeFormTemplate(employee: LocalEmployee, onEvent: (EmployeeFormEvent) -
 @Composable
 fun EmployeeFormTemplatePreview() {
     HexagonTheme {
-        EmployeeFormTemplate(employee = LocalEmployee(), onEvent = {})
+        EmployeeFormTemplate(
+            state = EmployeeFormState.Success(LocalEmployee(), emptyList()),
+            onEvent = {})
     }
 }
