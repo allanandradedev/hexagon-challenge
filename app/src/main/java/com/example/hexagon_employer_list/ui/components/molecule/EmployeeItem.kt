@@ -1,5 +1,8 @@
 package com.example.hexagon_employer_list.ui.components.molecule
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -25,6 +28,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,6 +61,11 @@ fun EmployeeItem(
     onEdit: (LocalEmployee) -> Unit,
     onAction: (LocalEmployee) -> Unit
 ) {
+    var visible by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        visible = true
+    }
 
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
@@ -64,123 +77,138 @@ fun EmployeeItem(
         containerColor = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.onBackground
     )
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(120.dp)
-            .shadow(elevation = 2.dp, RoundedCornerShape(8.dp)),
-        shape = RoundedCornerShape(8.dp),
-        colors = cardColors,
-        onClick = { onItemClick.invoke(employee) }
+    AnimatedVisibility(
+        visible = visible,
+        enter = slideInHorizontally(
+            animationSpec = tween(250),
+            initialOffsetX = {
+                -it
+            }
+        )
     ) {
-        Row(
+        Card(
             modifier = Modifier
-                .fillMaxHeight()
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .height(120.dp)
+                .shadow(elevation = 2.dp, RoundedCornerShape(8.dp)),
+            shape = RoundedCornerShape(8.dp),
+            colors = cardColors,
+            onClick = { onItemClick.invoke(employee) }
         ) {
-            Image(
-                painter = painter,
-                contentDescription = stringResource(id = R.string.profile_picture),
-                contentScale = ContentScale.Crop,
+            Row(
                 modifier = Modifier
-                    .size(height = 100.dp, width = 80.dp)
-                    .clip(RoundedCornerShape(8.dp))
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(
-                modifier = Modifier.fillMaxHeight()
+                    .fillMaxHeight()
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = employee.name, style = MaterialTheme.typography.headlineMedium)
-                    Icon(
-                        painter = rememberVectorPainter(image = Icons.Filled.Clear),
-                        contentDescription = stringResource(R.string.delete_icon),
-                        modifier = Modifier
-                            .size(20.dp)
-                            .clickable { onDelete.invoke(employee) }
-                    )
-                }
-                Row {
-                    Text(text = "${stringResource(id = R.string.age)}: ${CalculateAgeUseCase().invoke(employee.birthDate)}")
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "${stringResource(id = R.string.city)}: ${employee.city}")
-                }
-                Text(
-                    text = "${stringResource(R.string.situation)}: ${
-                        if (employee.active) stringResource(
-                            R.string.active
-                        ) else stringResource(R.string.inactive)
-                    }",
-                    style = MaterialTheme.typography.bodySmall
-                )
-                Row(
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.Bottom,
+                Image(
+                    painter = painter,
+                    contentDescription = stringResource(id = R.string.profile_picture),
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth()
+                        .size(height = 100.dp, width = 80.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Column(
+                    modifier = Modifier.fillMaxHeight()
                 ) {
-                    OutlinedButton(
-                        onClick = { onEdit.invoke(employee) },
-                        colors = ButtonDefaults.outlinedButtonColors().copy(
-                            contentColor = MaterialTheme.colorScheme.onBackground
-                        ),
-                        shape = RectangleShape,
-                        modifier = Modifier
-                            .height(25.dp)
-                            .width(60.dp),
-                        contentPadding = PaddingValues(0.dp)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text(
-                            text = stringResource(R.string.edit),
-                            style = MaterialTheme.typography.labelSmall
+                        Text(text = employee.name, style = MaterialTheme.typography.headlineMedium)
+                        Icon(
+                            painter = rememberVectorPainter(image = Icons.Filled.Clear),
+                            contentDescription = stringResource(R.string.delete_icon),
+                            modifier = Modifier
+                                .size(20.dp)
+                                .clickable { onDelete.invoke(employee) }
                         )
                     }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    OutlinedButton(
-                        onClick = {
-                            val currentEmployee = LocalEmployee().apply {
-                                this.id = employee.id
-                                this.name = employee.name
-                                this.city = employee.city
-                                this.birthDate = employee.birthDate
-                                this.document = employee.document
-                                this.profilePicture = employee.profilePicture
-                                this.active = !employee.active
-                            }
-                            onAction.invoke(currentEmployee)
-                        },
-                        colors = ButtonDefaults.outlinedButtonColors().copy(
-                            contentColor = if (employee.active) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
-                        ),
-                        shape = RectangleShape,
-                        modifier = Modifier
-                            .height(25.dp)
-                            .width(60.dp),
-                        contentPadding = PaddingValues(0.dp),
-                        border = BorderStroke(
-                            1.dp,
-                            if (employee.active) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
-                        )
-                    ) {
+                    Row {
                         Text(
-                            text = if (employee.active) stringResource(R.string.deactivate) else stringResource(
-                                R.string.activate
-                            ),
-                            style = MaterialTheme.typography.labelSmall
+                            text = "${stringResource(id = R.string.age)}: ${
+                                CalculateAgeUseCase().invoke(
+                                    employee.birthDate
+                                )
+                            }"
                         )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = "${stringResource(id = R.string.city)}: ${employee.city}")
+                    }
+                    Text(
+                        text = "${stringResource(R.string.situation)}: ${
+                            if (employee.active) stringResource(
+                                R.string.active
+                            ) else stringResource(R.string.inactive)
+                        }",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Row(
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.Bottom,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth()
+                    ) {
+                        OutlinedButton(
+                            onClick = { onEdit.invoke(employee) },
+                            colors = ButtonDefaults.outlinedButtonColors().copy(
+                                contentColor = MaterialTheme.colorScheme.onBackground
+                            ),
+                            shape = RectangleShape,
+                            modifier = Modifier
+                                .height(25.dp)
+                                .width(60.dp),
+                            contentPadding = PaddingValues(0.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.edit),
+                                style = MaterialTheme.typography.labelSmall
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        OutlinedButton(
+                            onClick = {
+                                val currentEmployee = LocalEmployee().apply {
+                                    this.id = employee.id
+                                    this.name = employee.name
+                                    this.city = employee.city
+                                    this.birthDate = employee.birthDate
+                                    this.document = employee.document
+                                    this.profilePicture = employee.profilePicture
+                                    this.active = !employee.active
+                                }
+                                onAction.invoke(currentEmployee)
+                            },
+                            colors = ButtonDefaults.outlinedButtonColors().copy(
+                                contentColor = if (employee.active) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
+                            ),
+                            shape = RectangleShape,
+                            modifier = Modifier
+                                .height(25.dp)
+                                .width(60.dp),
+                            contentPadding = PaddingValues(0.dp),
+                            border = BorderStroke(
+                                1.dp,
+                                if (employee.active) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
+                            )
+                        ) {
+                            Text(
+                                text = if (employee.active) stringResource(R.string.deactivate) else stringResource(
+                                    R.string.activate
+                                ),
+                                style = MaterialTheme.typography.labelSmall
+                            )
+                        }
                     }
                 }
             }
         }
     }
-
 }
 
 

@@ -14,12 +14,12 @@ class EmployeeRepositoryImpl : EmployeeRepository {
         realm.query<LocalEmployee>().asFlow().map { it.list }
 
     override fun getEmployeeById(employeeId: ObjectId): LocalEmployee? =
-        realm.query<LocalEmployee>("_id==$0", employeeId).first().find()
+        realm.query<LocalEmployee>("id==$0", employeeId).first().find()
 
     override suspend fun upsertEmployee(employee: LocalEmployee) {
         realm.writeBlocking {
             val liveEmployee =
-                this.query<LocalEmployee>("_id == $0", employee.id).first().find()
+                this.query<LocalEmployee>("id == $0", employee.id).first().find()
 
             liveEmployee?.apply {
                 this.city = employee.city
