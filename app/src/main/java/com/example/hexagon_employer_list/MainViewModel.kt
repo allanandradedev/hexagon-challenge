@@ -40,7 +40,7 @@ class MainViewModel @Inject constructor(
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("Confirmação de Identidade")
-            .setSubtitle("Para cumprir os parâmetros da LGDP, somente usuários autorizados poderão entrar.")
+            .setSubtitle("Para cumprir os parâmetros da LGPD, somente usuários autorizados poderão entrar.")
             .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)
             .build()
 
