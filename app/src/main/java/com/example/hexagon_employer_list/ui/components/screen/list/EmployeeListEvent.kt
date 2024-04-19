@@ -6,4 +6,5 @@ sealed interface EmployeeListEvent {
     data class OnToggleActivation(val employee: LocalEmployee): EmployeeListEvent
     data class OnEdit(val employee: LocalEmployee): EmployeeListEvent
     data class OnDelete(val employee: LocalEmployee): EmployeeListEvent
+    data object OnAdd: EmployeeListEvent
 }

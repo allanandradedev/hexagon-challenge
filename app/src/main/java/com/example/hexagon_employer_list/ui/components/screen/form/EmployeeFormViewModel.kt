@@ -2,10 +2,12 @@ package com.example.hexagon_employer_list.ui.components.screen.form
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hexagon_employer_list.Hexagon
 import com.example.hexagon_employer_list.R
 import com.example.hexagon_employer_list.data.repository.EmployeeRepository
 import com.example.hexagon_employer_list.data.source.local.LocalEmployee
 import com.example.hexagon_employer_list.domain.use_case.GetEmployeeByIdUseCase
+import com.example.hexagon_employer_list.ui.navigation.NavigationEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,19 +26,12 @@ class EmployeeFormViewModel @Inject constructor(
     private val _state = MutableStateFlow<EmployeeFormState>(EmployeeFormState.Success())
     val uiState: StateFlow<EmployeeFormState> = _state.asStateFlow()
 
-    private val _event = MutableStateFlow<EmployeeFormViewModelEvent?>(null)
-    val event: StateFlow<EmployeeFormViewModelEvent?> = _event.asStateFlow()
-
-    fun resetEvent() {
-        _event.value = null
-    }
-
     fun onEvent(event: EmployeeFormEvent) {
         when (event) {
             is EmployeeFormEvent.OnClick -> {
                 try {
                     upsertEmployee(employee = event.employee)
-                    _event.value = EmployeeFormViewModelEvent.OnUpsertFinish
+                    Hexagon.navigationManager.navigate(NavigationEvent.NavigateBack)
                 } catch (ex: Exception) {
                     _state.update {
                         (it as EmployeeFormState.Success).apply {

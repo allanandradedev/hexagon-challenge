@@ -50,22 +50,9 @@ fun NavGraphBuilder.mainGraph(navController: NavHostController) {
             .arguments?.getString(EmployeeForm.ID) ?: ""
 
         val viewModel = hiltViewModel<EmployeeFormViewModel>()
-        val currentEvent by viewModel.event.collectAsState()
 
         if (id.isNotEmpty()) {
             viewModel.getEmployeeById(ObjectId(hexString = id))
-        }
-
-        DisposableEffect(key1 = currentEvent) {
-            currentEvent.let {
-                if (it is EmployeeFormViewModelEvent.OnUpsertFinish) {
-                    navController.navigateUp()
-                }
-            }
-
-            onDispose {
-                viewModel.resetEvent()
-            }
         }
 
         EmployeeFormScreen(

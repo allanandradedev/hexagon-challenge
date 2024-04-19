@@ -2,8 +2,11 @@ package com.example.hexagon_employer_list.ui.components.screen.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hexagon_employer_list.Hexagon
 import com.example.hexagon_employer_list.data.repository.EmployeeRepository
 import com.example.hexagon_employer_list.data.source.local.LocalEmployee
+import com.example.hexagon_employer_list.ui.navigation.NavigationEvent
+import com.example.hexagon_employer_list.ui.navigation.destination.EmployeeForm
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,11 +43,21 @@ class EmployeeListViewModel @Inject constructor(
             }
 
             is EmployeeListEvent.OnEdit -> {
-                editEmployee(event.employee)
+                Hexagon.navigationManager.navigate(
+                    NavigationEvent.NavigateToEmployeeForm(
+                        mapOf(
+                            EmployeeForm.ID to event.employee.id.toHexString()
+                        )
+                    )
+                )
             }
 
             is EmployeeListEvent.OnToggleActivation -> {
                 editEmployee(event.employee)
+            }
+
+            EmployeeListEvent.OnAdd -> {
+                Hexagon.navigationManager.navigate(NavigationEvent.NavigateToEmployeeForm())
             }
         }
     }

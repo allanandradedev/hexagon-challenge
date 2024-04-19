@@ -34,8 +34,6 @@ fun EmployeeListScreen(
                 employeeList = (currentState as EmployeeListState.Success).employeeList,
                 onItemClick = { employee -> showDetails = Pair(true, employee)},
                 onEvent = onEvent,
-                onEdit = onEdit,
-                onAdd = onAdd
             )
         }
     }

@@ -45,8 +45,6 @@ import com.example.hexagon_employer_list.ui.theme.HexagonTheme
 fun EmployeeListTemplate(
     employeeList: List<LocalEmployee>,
     onEvent: (EmployeeListEvent) -> Unit,
-    onEdit: (LocalEmployee) -> Unit,
-    onAdd: () -> Unit,
     onItemClick: (LocalEmployee) -> Unit
 ) {
     var query by remember {
@@ -84,7 +82,7 @@ fun EmployeeListTemplate(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = onAdd,
+                onClick = { onEvent.invoke(EmployeeListEvent.OnAdd) },
                 containerColor = MaterialTheme.colorScheme.onBackground
             ) {
                 Icon(
@@ -152,7 +150,7 @@ fun EmployeeListTemplate(
                         it.name.uppercase().contains(query.uppercase()) && (it.active == isActiveFiltered || it.active == !isInactiveFiltered)
                     },
                     onItemClick = onItemClick,
-                    onEdit = onEdit,
+                    onEdit = { onEvent.invoke(EmployeeListEvent.OnEdit(it)) },
                     onAction = { onEvent.invoke(EmployeeListEvent.OnToggleActivation(it)) },
                     onDelete = { onEvent.invoke(EmployeeListEvent.OnDelete(it)) }
                 )
@@ -200,8 +198,6 @@ fun EmployeeListPreview() {
             employeeList = employeeList,
             onEvent = {},
             onItemClick = {},
-            onEdit = {},
-            onAdd = {}
         )
     }
 }

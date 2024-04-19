@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -37,6 +38,17 @@ class MainActivity : FragmentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val navController = rememberNavController()
+
+                    LaunchedEffect("navigation") {
+                        Hexagon.navigationManager.navigationEventChannel.collect {
+                            Hexagon.navigationManager.handleEvent(
+                                it,
+                                navController
+                            )
+                        }
+                    }
+
                     when (currentResult) {
                         is MainState.Error -> {
                             ErrorTemplate(
@@ -50,7 +62,6 @@ class MainActivity : FragmentActivity() {
                         }
 
                         MainState.Success -> {
-                            val navController = rememberNavController()
                             MainNavigation(navHostController = navController)
                         }
                     }
